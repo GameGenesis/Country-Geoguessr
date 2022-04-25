@@ -26,10 +26,19 @@ def question(question_id):
         else:
             flash(f"Vous n'avez pas trouvé la bonne réponse! La bonne réponse était {question.answer}!", category="error")
 
-        session["current_question"] = question_id + 1
-        return redirect(url_for("views.question", question_id=session["current_question"]))
+        if question_id < Question.query.count():
+            session["current_question"] = question_id + 1
+            return redirect(url_for("views.question", question_id=session["current_question"]))
+
+        return redirect(url_for("views.complete"))
 
     return render_template("question.html", question=question)
+
+@views.route("/complete")
+def complete():
+    questions_correct = session["questions_correct"]
+    total = Question.query.count()
+    return render_template("complete.html", correct=questions_correct, total=total)
 
 def create_questions_list():
     db.session.query(Question).delete()
