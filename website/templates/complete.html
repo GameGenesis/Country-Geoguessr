@@ -1,5 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-</div>Score: {{ correct }}/{{ total }}</div>
+<form method="POST">
+    <h3 align="center" style="margin-top:15px;margin-bottom:15px;">
+        Score: {{ correct }}/{{ total }}
+    </h3>
+    <br>
+    <center>
+        <button type="submit" class="btn btn-primary" name="replay" value="replay">
+            Rejouer
+        </button>
+    </center>
+</form>
 {% endblock %}

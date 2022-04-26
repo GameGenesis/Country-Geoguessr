@@ -19,7 +19,6 @@ def home():
 def question(question_id):
     question = Question.query.get_or_404(question_id)
     if request.method == "POST":
-
         if request.form["answer"] == question.answer:
             session["questions_correct"] = session["questions_correct"] + 1
             flash("Vous avez la bonne réponse!", category="success")
@@ -34,8 +33,11 @@ def question(question_id):
 
     return render_template("question.html", question=question)
 
-@views.route("/complete")
+@views.route("/complete", methods=["GET", "POST"])
 def complete():
+    if request.method == "POST":
+        return redirect(url_for("views.home"))
+
     questions_correct = session["questions_correct"]
     total = Question.query.count()
     return render_template("complete.html", correct=questions_correct, total=total)
@@ -51,6 +53,9 @@ def create_questions_list():
             answer="france"),
         Question(
             source="https://www.google.com/maps/embed?pb=!4v1650907861878!6m8!1m7!1soUBW2OPfg2xx7Mahh5B7oQ!2m2!1d34.11852823671052!2d35.64530421955928!3f203.1064343903531!4f-7.772004365928666!5f0.7820865974627469",
+            answer="liban"),
+        Question(
+            source="https://www.google.com/maps/embed?pb=!4v1650932117218!6m8!1m7!1sCAoSLEFGMVFpcE1SYmlhaExTVE9KVUsyMTc0Q0tjMTNiR3R2eHUtUDlJS05lakpL!2m2!1d34.12131953236507!2d35.64499944448471!3f352.24!4f12.530000000000001!5f0.7820865974627469",
             answer="liban"),
         Question(
             source="https://www.google.com/maps/embed?pb=!4v1650907677024!6m8!1m7!1sCAoSLEFGMVFpcE41Wk1Nbk01YjlYQ29VNlhQYXFtbkp4YjZoU0pEaDR4c0M1NG4t!2m2!1d48.85335329999999!2d2.3489!3f357.02872944032424!4f21.292272755553256!5f0.8160813932612223",
@@ -85,9 +90,15 @@ def create_questions_list():
         Question(
             source="https://www.google.com/maps/embed?pb=!4v1650909145054!6m8!1m7!1sCAoSLEFGMVFpcE9fM3kyX05BMk1yc192SFdOVm82U3dpbkRVdVEwM2Q0OXh2YTJs!2m2!1d33.8961973!2d35.5048573!3f22.13!4f6.769999999999996!5f0.7820865974627469",
             answer="liban"),
+         Question(
+            source="https://www.google.com/maps/embed?pb=!4v1650932054900!6m8!1m7!1sCAoSLEFGMVFpcE1jcm9sSzRldV9IZmN2UTBEMlVPa00xMDlydmRyRXdQcGFQVnB2!2m2!1d34.25626281895808!2d35.65983582175178!3f43.34!4f11.879999999999995!5f0.7820865974627469",
+            answer="liban"),
         Question(
             source="https://www.google.com/maps/embed?pb=!4v1650908971663!6m8!1m7!1sgbAACtURFQQP-tAcd6NuQQ!2m2!1d33.89918440553348!2d35.47938581390265!3f326.43!4f3.280000000000001!5f0.7820865974627469",
             answer="liban"),
+        Question(
+            source="https://www.google.com/maps/embed?pb=!4v1650931835117!6m8!1m7!1sCAoSLEFGMVFpcE5TamJHRXF2ZWtGMV80Z1lyeTZFc2lRX0wyMnpwbTB3SnhkNnZX!2m2!1d44.63645393850987!2d-0.3212401270859573!3f268.68!4f29.739999999999995!5f0.7820865974627469",
+            answer="france"),
         Question(
             source="https://www.google.com/maps/embed?pb=!4v1650909027716!6m8!1m7!1s1GCPySw4Ekg-uIsu-NnBRQ!2m2!1d33.89994465547682!2d35.47928156514755!3f199.75!4f14.700000000000003!5f0.7820865974627469",
             answer="liban"),
@@ -97,6 +108,12 @@ def create_questions_list():
         Question(
             source="https://www.google.com/maps/embed?pb=!4v1650909226242!6m8!1m7!1sCAoSLEFGMVFpcE9mWThGUjMtb3ZaWkFLTFZtd1BoN3hzOXRxU2kxV2ZlMWFmS3lY!2m2!1d33.8965509!2d35.5047007!3f166.24!4f24.480000000000004!5f0.7820865974627469",
             answer="liban"),
+        Question(
+            source="https://www.google.com/maps/embed?pb=!4v1650931886617!6m8!1m7!1sCAoSLEFGMVFpcE5jZlQwLVZ1Y3l2Tm1mcVREWjViV2c3TjhEZjJjM1N4cXJ6ckVk!2m2!1d42.52824412000641!2d3.087419696038408!3f246.78!4f0.7600000000000051!5f0.7820865974627469",
+            answer="france"),
+        Question(
+            source="https://www.google.com/maps/embed?pb=!4v1650931933721!6m8!1m7!1sCAoSLEFGMVFpcFBVUVpnOC1Ec3NqTEJsX0FIY2pVYkpYd0gzcml3RGxPSTBHSTR2!2m2!1d49.1850210998597!2d-0.3607856109738349!3f214.84583166147314!4f0.15319245966202288!5f0.7820865974627469",
+            answer="france"),
         Question(
             source="https://www.google.com/maps/embed?pb=!4v1650909269408!6m8!1m7!1sCAoSLEFGMVFpcFBFby1FZ3hGOXZ1Ukh1aUhXTEdBcTRfLUVfUUkxY3JiSC1qdUs5!2m2!1d33.896394938851!2d35.50509578412!3f319.78!4f4.180000000000007!5f0.7820865974627469",
             answer="liban"),
@@ -109,6 +126,9 @@ def create_questions_list():
         Question(
             source="https://www.google.com/maps/embed?pb=!4v1650909410740!6m8!1m7!1sCAoSLEFGMVFpcE9Yc3VTMENxQlg5TlBpYXc3MkVEU0hjMzFmNTdLUWtBMzMzU3V2!2m2!1d33.89922235175111!2d35.50349592507769!3f267.09!4f26.269999999999996!5f0.7820865974627469",
             answer="liban"),
+        Question(
+            source="https://www.google.com/maps/embed?pb=!4v1650931971880!6m8!1m7!1sCAoSLEFGMVFpcE9tVThkaEpFSEZ4dmhOYTlmLUdzRTl5V0E5UFVETHJaNzVsWTBN!2m2!1d45.21331412490809!2d1.691471577796424!3f352.19975243380907!4f11.84810288311327!5f0.8160813932612223",
+            answer="france"),
         Question(
             source="https://www.google.com/maps/embed?pb=!4v1650909472159!6m8!1m7!1sCAoSLEFGMVFpcE1wZHpfVk8zU1pJNEk1ZjZKekZwZ21jcHVycVVjS21yamVrbU9q!2m2!1d33.89905944148631!2d35.50494449000715!3f277.48189976997514!4f21.093401028258356!5f0.7820865974627469",
             answer="liban"),
