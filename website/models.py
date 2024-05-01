@@ -1,4 +1,3 @@
-from sqlalchemy.sql import func
 from . import db
 
 class Question(db.Model):
